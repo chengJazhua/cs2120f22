@@ -15,10 +15,10 @@ the set precisely and completely.
 -/
 
 -- Logical notation, logical thinking, even is a predicate
-def even : ℕ → Prop := fun n, n % 2 = 0   -- λ expression
+def isEven : ℕ → Prop := fun n, n % 2 = 0   -- λ expression
 
 -- Set notation, set thinking, even as a set (a collection of objects)
-def evens := { n | even n } -- evens is the set of n that satisfy even
+def evens := { n | isEven n } -- evens is the set of n that satisfy even
 
 -- Logical notation, predicate applications yielding propositions
 example : evens 0 := rfl
@@ -46,10 +46,6 @@ the predicate. Step 2: use it within set builder
 expressions. Here's a by now familiar example.
 -/
 
--- Using "by cases" notation, all on one line
-def isEven : ℕ → Prop | n := n % 2 = 0  -- define predicate
-def evens' := { n | isEven n }          -- use predicate
-
 /-
 Exercise: use set membership notation to write the next
 few test cases after the ones given above: for argument
@@ -67,5 +63,3 @@ above. That is, define isOdd, the predicate, and then odds,
 the set, separately. Then state and prove the propositions, 
 2 ∉ odds, and 3 ∈ odds. (Use example.)
 -/
-
-
