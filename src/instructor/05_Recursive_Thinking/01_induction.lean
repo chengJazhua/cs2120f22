@@ -23,8 +23,11 @@ values of *any* inductively defined data type.
 
 #2: If a type is named T, then T.rec_on is the 
 name of the corresponding induction axiom *in 
-Lean*. The idea of induction axioms is general,
-but this is its implementation in Lean.
+Lean*. The statement of the inducation axiom,
+however, even in Lean, is purely mathematical
+and is independent of Lean. It's part of the
+logic we're learning. The idea of an induction
+axiom is general.
 
 #3. An induction axiom is an axiom for proving 
 *universal generalizations* (∀ propositions) 
@@ -32,39 +35,59 @@ that assert that something is true for *all*
 values of a given type.
 -/
 
+/- ************************************
+INDUCTION OVER ALL VALUES OF TYPE bool
+************************************ -/
+
 /-
 As an example, let's look again at the definition
 of the bool type, and then at its induction axiom.
 -/
 
-#check bool
+
 /- 
+Here's the definition of the bool type
+
 inductive bool    -- data type definition
 | ff : bool       -- first constructor
 | tt : bool       -- second constructor
 -/
 
+/- Here's the induction axiom for bool.
+Be sure you understand it! Note that the
+use of "motive" for the name of a property
+might be a little confusing. Just think of
+it as "P" if that helps. 
+-/
 #check @bool.rec_on
 /-
 bool.rec_on : 
   Π {motive : bool → Sort u_1} 
   (n : bool), 
-  motive ff → motive tt → motive n
+  motive ff → 
+  motive tt → 
+  motive n
 
 Let's decode that:
 (0) bool.rec_on is an axiom that says that:
-(1) for any property or function taking a bool
-(2) and for any arbitrary Boolean value n
+(1) for any *property or function* taking ...
+(2) any arbitrary Boolean value, n,
 (3) if you prove that ff has the property
 (4) and you prove that tt has the property
-(5) then you've proved that any bool n has it.
+(5) then you've given either a proof for each
+    possible n or a return value for each n,
+    and so have either proved a generalization
+    or have defined a total function
 -/
 
 /-
-Key idea #4: For simple types like bool whose
-values are just "enumerated," proof by induction
-amounts to proof by case analysis. As a reminder
-of that strategy, here's a proof that for any
+Key idea #4: For simple types like bool, whose
+values are "enumerated," proof by induction is
+just proof by case analysis. That's what the 
+rule for bool says: prove it for ff, then for 
+tt,, and now you've got a proof *for all* bools. 
+
+As a reminder, here's a proof that for any
 bool, n, the negation of the negation of n is n.
 The idea is just to show it's true for each of
 the values individually. 
@@ -706,65 +729,5 @@ exact
     left_zero_add_zero 
     left_zero_add_n',
 end
-
-/-
-EXERCISE: Reformulate the preceding formal proof
-using  Lean's induction tactic.
-
-EXERCISE: Give a fluent English-language proof
-(based on the formal proof).
-
-EXERCISE: Give a fluent English-language proof
-that 2 * sum_to n = n * (n+1). Show all of the
-algebraic steps needed to complete this proof.
-If you need to transform expressions using the
-associativity or commutativity of addition or
-multiplication, say so. Each step must have a
-justification.
-
-EXERCISE: Give an English language proof by
-induction of the proposition that, for any
-natural number, n, a set with n elements has
-2^n subsets. 
-
-EXERCISE: Prove by induction that ∀ n, P n, 
-where P n is the proposition that the sum of 
-all the squares of the natural numbers from 
-0 to n = (n(n+1)(2n+1))/6.
-
-A. Using the induction axiom for the natural
-numbers, applied to base and step functions
-that you define separately, to implement a
-function that computes this sum of squares 
-for any natural number, n.  Write a few test
-cases to check that your function appears to
-be working, at least for n = 0, 1, 3, and 5.
-
-B. Formally express the property of a natural
-number, P n, that asserts that the sum of the
-squares of the numbers from 0 to any given n
-equals (n(n+1)(2n+1))/6.
-
-C. Define the proposition that every natural
-number, n, has this property. This is what is
-to be proved by induction.
-
-D. Define a proof of the base case, n = 0.
-
-E. Define a proof for the inductive or step
-case, amounting to a function that, when given 
-any n' and a proof of P n' returns a proof of
-P (n' + 1).
-
-F. Construct a proof of the proposition that
-every natural number has this property by
-applying the induction axiom for the natural
-numbers to n and the base and step proofs.
-
-G. Give a fluent English-language proof of
-the universal generalization based on the
-work done above. Show *all* of your algebra
-work.
--/
 
 end cs2120f22
